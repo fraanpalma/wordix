@@ -120,7 +120,9 @@ function escribirSegunEstado($texto, $estado)
 }
 
 /**
- * ****COMPLETAR*****
+ * (a CARO le tocó completarla!!)
+ * la función solo muestra por pantalla un mensaje de bienvenida a un usuario que ingresa como parametro formal, usando una función para colocar el texto en amarillo; no retorna nada
+ * @param string $usuario
  */
 function escribirMensajeBienvenida($usuario)
 {
@@ -149,7 +151,9 @@ function esPalabra($cadena)
 }
 
 /**
- *  ****COMPLETAR*****
+ * (a CARO le tocó completarla!!)
+ * la función pide al usuario una palabra de cinco letras y usa un modulo para pasarla a mayusculas, verificando que la palabra tenga siempre 5 letras, luego la retorna ya en mayusculas; no hay parámetro formal
+ * @return string
  */
 function leerPalabra5Letras()
 {
@@ -328,13 +332,67 @@ function esIntentoGanado($estructuraPalabraIntento)
 }
 
 /**
- * ****COMPLETAR***** documentación de la intefaz
+ * (a CARO le tocó completarla!!)
+ * esta función calcula el puntaje de Wordix en base a: la cantidad de intentos y a la clasificación de letras de cada palabra
+ * @return int
  */
-function obtenerPuntajeWordix()  /* ****COMPLETAR***** parámetros formales necesarios */
-{
+function obtenerPuntajeWordix($palabraWordix, $nombreUsuario)
+{ 
+    $arrayPartida = jugarWordix($palabraWordix, $nombreUsuario); //de acá obtengo el nro de intentos
+    $ptje = 0;
+    //**segun el intento es el puntaje, menor intentos equivale a más puntaje**//
+    //**uso el switch en lugar de un if ya que solo hago una comparación y es más limpio, en vez de tener muchas alternativas**//
+    switch ($arrayPartida["intento"]) { 
+        case 1:
+            $ptje = 6;           
+            break;
+        case 2:
+            $ptje = 5;           
+            break;
+        case 3:
+            $ptje = 4;           
+            break;
+        case 4:
+            $ptje = 3;           
+            break;
+        case 5:
+            $ptje = 2;           
+            break;
+        case 6:  
+            $ptje = 1;           
+            break;
+        default:
+            $ptje = 0;
+            break;
+    }
+    
+    $longitudPalabra = strlen($arrayPartida["palabra"]);
+    $verificarPalabra = esPalabra($arrayPartida["palabra"]); //verifico que la palabra ingresada es válida
 
-    /* ****COMPLETAR***** cuerpo de la función*/
-    return 0;
+    if ($verificarPalabra && $longitudPalabra == 5){
+    //**acá no usé la función leerPalabra5Letras que verifica la longitud de la palabra para no tener que llamarla todo el tiempo dado que solo necesito veriticar que la palabra tenga 5 letras**//
+
+        for ($i=0; $i < $longitudPalabra; $i++){
+            //**no usé un switch para evitar la repetición del acumulador de suma en cada case, porque siempre iba a solo sumar 2 puntos**//
+            //**esta primera alternativa da un 2 puntos si la letra es una consonante hasta la M inclusive**//
+            if ($arrayPartida["palabra"] == "B" || $arrayPartida["palabra"] == "C" || $arrayPartida["palabra"] == "D" || $arrayPartida["palabra"] == "F" ||     $arrayPartida["palabra"] == "G" || $arrayPartida["palabra"] == "H" || $arrayPartida["palabra"] == "J" ||$arrayPartida["palabra"] == "K" ||$arrayPartida["palabra"]  [$i] == "L" ||$arrayPartida["palabra"] == "M"){ 
+                $ptje += 2;
+            }
+
+            //**esta segunda sentencia da 1 punto si la letra es vocal**//
+            elseif($arrayPartida["palabra"] == "A" || $arrayPartida["palabra"] == "E" || $arrayPartida["palabra"] == "I" || $arrayPartida["palabra"] == "O" ||  $arrayPartida["palabra"] == "U"){
+                $ptje += 1;
+
+            }//**la ultima alternativa solo toma a las consonantes a partir de la N, sin contar a las anteriores ni a las vocales, ya que son tomadas en las condiciones previas**//
+            else{
+                $ptje += 3;
+            }
+        }
+    }else{
+        echo "error, palabra erronea o de longitud no aceptada.\n"; //**este mensaje se puede quitar**/
+    }
+    return $ptje;
+
 }
 
 /**
@@ -369,7 +427,7 @@ function jugarWordix($palabraWordix, $nombreUsuario)
 
     if ($ganoElIntento) {
         $nroIntento--;
-        $puntaje = obtenerPuntajeWordix();
+        $puntaje = obtenerPuntajeWordix($palabraWordix, $nombreUsuario);//**modificado en base a la función anterior**//
         echo "Adivinó la palabra Wordix en el intento " . $nroIntento . "!: " . $palabraIntento . " Obtuvo $puntaje puntos!";
     } else {
         $nroIntento = 0; //reset intento
