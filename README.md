@@ -11,3 +11,4 @@ Universidad Nacional del Comahue
  Integrantes del Grupo 5
 
 - **Franco Nicolas Palma** - Legajo FAI 5308 - mail: franco.palma@est.fi.uncoma.edu.ar - GitHub: fraanpalma
+- **Carolina Noemí Otermin** - Legajo FAI 4208 - mail: carolina.otermin@est.fi.uncoma.edu.ar - GitHub: oterminA 
