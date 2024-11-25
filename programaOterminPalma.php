@@ -1,8 +1,6 @@
 <?php
 include_once("wordix.php");
 
-/////////////////////////////////////////////////////////////////////
-
 /** 
  *  > Otermin, Noemí Carolina
  *  > FAI - [4208] 
@@ -17,7 +15,6 @@ include_once("wordix.php");
  *  > GitHub: fraanpalma
  */
 
- //////////////////////////////////////////////////////////////////
 
 /**
  * Obtiene una colección de palabras
@@ -44,30 +41,6 @@ function cargarColeccionPalabras()
  * @param array $partida
  * @return array 
  */
-
-/* ****COMPLETAR***** */
-
-
-
-/**************************************/
-/*********** PROGRAMA PRINCIPAL *******/
-/**************************************/
-
-//Declaración de variables:
-
-
-//Inicialización de variables:
-
-
-//Proceso:
-
-$partida = jugarWordix("MELON", strtolower("MaJo"));
-//print_r($partida);
-//imprimirResultado($partida);
-
-/**************************************/
-/****** DECLARACION DE FUNCIONES ******/
-/**************************************/
 
 /**
  * Funcion que permite al usuario elegir una palabra
@@ -144,6 +117,31 @@ function mostrarListadoOrdenado() {
 function agregarUnaPalabra() {
 
 }
+/* ****COMPLETAR***** */
+
+
+
+/**************************************/
+/*********** PROGRAMA PRINCIPAL *******/
+/**************************************/
+
+//Declaración de variables:
+
+
+//Inicialización de variables:
+
+
+//Proceso:
+
+$partida = jugarWordix("MELON", strtolower("MaJo"));
+//print_r($partida);
+//imprimirResultado($partida);
+
+/**************************************/
+/****** DECLARACION DE FUNCIONES ******/
+/**************************************/
+
+
 
 /******** MENU DE ELECCION ********/
 
