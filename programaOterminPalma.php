@@ -2,18 +2,19 @@
 include_once("wordix.php");
 
 
-
-/**************************************/
-/***** DATOS DE LOS INTEGRANTES *******/
-/**************************************/
-
-/* Apellido, Nombre. Legajo. Carrera. mail. Usuario Github */
-/* ****COMPLETAR***** */
-
-
-/**************************************/
-/***** DEFINICION DE FUNCIONES ********/
-/**************************************/
+/** 
+ *  > Otermin, Noemí Carolina
+ *  > FAI - [4208] 
+ *  > Carrera : Tecnicatura en Desarrollo Web 
+ *  > E-Mail Institucional : carolina.otermin@est.fi.uncoma.edu.ar 
+ *  > GitHub: oterminA
+ *    ------------------------------------------------------------
+ *  > Palma, Franco Nicolas
+ *  > FAI - [5308] 
+ *  > Carrera : Tecnicatura en Desarrollo Web 
+ *  > E-Mail Institucional : franco.palma@est.fi.uncoma.edu.ar
+ *  > GitHub: fraanpalma
+ */
 
 /**
  * Obtiene una colección de palabras
