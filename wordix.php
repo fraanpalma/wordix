@@ -375,7 +375,7 @@ function obtenerPuntajeWordix($palabraWordix, $nombreUsuario) {
     //int $ptje, $longitudPalabra
     //string $verificarPalabra
     
-    $arrayPartida = jugarWordix($palabraWordix, $nombreUsuario); //de acá obtengo el nro de intentos
+    $arrayPartida = jugarWordix($palabraWordix, $nombreUsuario); //arreglar , esta mal.
     $ptje = 0;
     //**segun el intento es el puntaje, menor intentos equivale a más puntaje**//
     //**uso el switch en lugar de un if ya que solo hago una comparación y es más limpio, en vez de tener muchas alternativas**//
