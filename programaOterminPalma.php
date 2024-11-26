@@ -37,10 +37,36 @@ function cargarColeccionPalabras()
 /**
  * Funcion que carga una estructura indexada de arreglos
  * asociativos. Esta almacena informacion de las partidas que 
- * se jugaron. 
- * @param array $partida
+ * se jugaron.  
  * @return array 
  */
+function cargarPartidas() {
+
+    $coleccionPartidas = [];
+    $coleccionPartidas[0] = ["palabraWordix"=>"MUJER","jugador"=>"majo","intentos"=> 0,"puntaje"=> 0];
+    $coleccionPartidas[1] = ["palabraWordix"=>"QUESO","jugador"=>"rudolf","intentos"=> 3,"puntaje"=> 14];
+    $coleccionPartidas[2] = ["palabraWordix"=>"FUEGO","jugador"=>"pink2000","intentos"=> 6,"puntaje"=> 10];
+    $coleccionPartidas[3] = ["palabraWordix"=>"CASAS","jugador"=>"caro","intentos"=> 2,"puntaje"=> 15];
+    $coleccionPartidas[4] = ["palabraWordix"=>"RASGO","jugador"=>"fran","intentos"=> 6,"puntaje"=> 0];
+    $coleccionPartidas[5] = ["palabraWordix"=>"GATOS","jugador"=>"gise","intentos"=> 5,"puntaje"=> 11];
+    $coleccionPartidas[6] = ["palabraWordix"=>"GOTAS","jugador"=>"amalia","intentos"=> 1,"puntaje"=> 15];
+    $coleccionPartidas[7] = ["palabraWordix"=>"HUEVO","jugador"=>"rodri","intentos"=> 3,"puntaje"=> 12];
+    $coleccionPartidas[8] = ["palabraWordix"=>"GRANO","jugador"=>"fran","intentos"=> 1,"puntaje"=> 15];
+    $coleccionPartidas[9] = ["palabraWordix"=>"SALIR","jugador"=>"caro","intentos"=> 1,"puntaje"=> 16];
+    $coleccionPartidas[10] = ["palabraWordix"=>"LIMON","jugador"=>"gise","intentos"=> 4,"puntaje"=> 10];
+    $coleccionPartidas[11] = ["palabraWordix"=>"OVEJA","jugador"=>"rodri","intentos"=> 5,"puntaje"=> 10];
+    $coleccionPartidas[12] = ["palabraWordix"=>"YUYOS","jugador"=>"amalia","intentos"=> 4,"puntaje"=> 12];
+    $coleccionPartidas[13] = ["palabraWordix"=>"SALIR","jugador"=>"jose","intentos"=> 3,"puntaje"=> 14];
+    $coleccionPartidas[14] = ["palabraWordix"=>"GOTAS","jugador"=>"luisa","intentos"=> 2,"puntaje"=> 15];
+    $coleccionPartidas[15] = ["palabraWordix"=>"FUEGO","jugador"=>"gonzalo","intentos"=> 1,"puntaje"=> 13];
+    $coleccionPartidas[16] = ["palabraWordix"=>"VALLE","jugador"=>"anto","intentos"=> 2,"puntaje"=> 14];
+    $coleccionPartidas[17] = ["palabraWordix"=>"CARTA","jugador"=>"caro","intentos"=> 3,"puntaje"=> 14];
+    $coleccionPartidas[18] = ["palabraWordix"=>"BANCO","jugador"=>"fran","intentos"=> 6,"puntaje"=> 9];
+    $coleccionPartidas[19] = ["palabraWordix"=>"NAVES","jugador"=>"cristian","intentos"=> 5,"puntaje"=> 12];
+    $coleccionPartidas[20] = ["palabraWordix"=>"QUESO","jugador"=>"luis","intentos"=> 4,"puntaje"=> 11];
+    
+    return $coleccionPartidas;
+}
 
 /**
  * Funcion que permite al usuario elegir una palabra
@@ -136,21 +162,29 @@ function seleccionarOpcion() {
     
     do {
         
-        echo ">Seleccione una opción:\n";
-        echo "1. Jugar al wordix con una palabra elegida.\n";
-        echo "2. Jugar al wordix con una palabra aleatoria.\n";
-        echo "3. Mostrar una partida.\n";
-        echo "4. Mostrar la primer partida ganadora.\n";
-        echo "5. Mostrar resumen de Jugador.\n";
-        echo "6. Mostrar listado de partidas ordenadas por jugador y por palabra.\n";
-        echo "7. Agregar una palabra de 5 letras a Wordix. \n";
-        echo "8. Salir";
+        echo ">>>> MENU DE OPCIONES <<<<\n";
+        echo "> 1 - Jugar al wordix con una palabra elegida.\n";
+        echo "> 2 - Jugar al wordix con una palabra aleatoria.\n";
+        echo "> 3 - Mostrar una partida.\n";
+        echo "> 4 - Mostrar la primer partida ganadora.\n";
+        echo "> 5 - Mostrar resumen de Jugador.\n";
+        echo "> 6 - Mostrar listado de partidas ordenadas por jugador y por palabra.\n";
+        echo "> 7 - Agregar una palabra de 5 letras a Wordix. \n";
+        echo "> 8 - Salir";
+
+        echo "> ELIJA UNA OPCION < \n";
 
         $opcion = trim(fgets(STDIN));
 
-    } while ( $opcion < 1 || $opcion > 8);
+        if (!is_numeric($opcion) || $opcion < 1 || $opcion > 8) {
+            echo "Error: Por favor, ingrese un número entre 1 y 8.\n";
+        }
 
-        return $opcion;
+    } while (!is_numeric($opcion) || $opcion < 1 || $opcion > 8);
+    
+    $opcion = (int)$opcion;
+
+    return $opcion;
     }
 
 /* ****COMPLETAR***** */
