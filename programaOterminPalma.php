@@ -130,14 +130,12 @@ function agregarUnaPalabra($palabraNueva, $coleccionPalabras) {
  * le solicita al usuario una opción válida
  * (si la opción no es correcta, se le solicita otra vez un número al usuario hasta que la opción sea
  * válida), y retorna el número de la opción elegida.
- * @param int $opcion
  * @return int
  */
-function menu($opcion) {
-    while ($opcion < 1 && $opcion > 8){
-        echo "Ingrese una opción válida:\n";
-        $opcion = trim(fgets(STDIN));
-    }
+function seleccionarOpcion() {
+    
+    do {
+        
         echo ">Seleccione una opción:\n";
         echo "1. Jugar al wordix con una palabra elegida.\n";
         echo "2. Jugar al wordix con una palabra aleatoria.\n";
@@ -147,6 +145,11 @@ function menu($opcion) {
         echo "6. Mostrar listado de partidas ordenadas por jugador y por palabra.\n";
         echo "7. Agregar una palabra de 5 letras a Wordix. \n";
         echo "8. Salir";
+
+        $opcion = trim(fgets(STDIN));
+
+    } while ( $opcion < 1 || $opcion > 8);
+
         return $opcion;
     }
 
@@ -179,8 +182,8 @@ $partida = jugarWordix("MELON", strtolower("MaJo"));
 /******** MENU DE ELECCION ********/
 
 do {
-    $opcion = trim(fgets(STDIN));
-    switch ($opcion) {
+     $opcion = seleccionarOpcion();
+     switch ($opcion) {
         case 1: 
             jugarPalabraElegida();
             break;
@@ -205,9 +208,6 @@ do {
         case 8:
             echo "Saliendo del programa";
             break;
-        default:
-            echo "> Ingrese una opcion valida para continuar.\n";
-            break;
-    }
+        }
 } while ($opcion != 8);
 
