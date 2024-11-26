@@ -114,9 +114,42 @@ function mostrarListadoOrdenado() {
  * agrega en mayusculas a la coleccion de palabras Wordix, para que
  * el usuario pueda utilizarla para jugar.
  */
-function agregarUnaPalabra() {
+function agregarUnaPalabra($palabraNueva, $coleccionPalabras) {
+    $palabraNueva = strtoupper($palabraNueva);
+    //Se asigna el valor total de elementos del array de coleccion de palabras a esta etiqueta
+    $indiceNuevo = count($coleccionPalabras);
+    
+    //La nueva palabra se asigna a la colección ya existente en la ultima posición usando la longitud del array
+    $coleccionPalabras[$indiceNuevo] = $palabraNueva;
+        
+    return $coleccionPalabras;
+    }
 
-}
+/**
+ * *Función que que muestra en pantalla las opciones del menú,
+ * le solicita al usuario una opción válida
+ * (si la opción no es correcta, se le solicita otra vez un número al usuario hasta que la opción sea
+ * válida), y retorna el número de la opción elegida.
+ * @param int $opcion
+ * @return int
+ */
+function menu($opcion) {
+    while ($opcion < 1 && $opcion > 8){
+        echo "Ingrese una opción válida:\n";
+        $opcion = trim(fgets(STDIN));
+    }
+        echo ">Seleccione una opción:\n";
+        echo "1. Jugar al wordix con una palabra elegida.\n";
+        echo "2. Jugar al wordix con una palabra aleatoria.\n";
+        echo "3. Mostrar una partida.\n";
+        echo "4. Mostrar la primer partida ganadora.\n";
+        echo "5. Mostrar resumen de Jugador.\n";
+        echo "6. Mostrar listado de partidas ordenadas por jugador y por palabra.\n";
+        echo "7. Agregar una palabra de 5 letras a Wordix. \n";
+        echo "8. Salir";
+        return $opcion;
+    }
+
 /* ****COMPLETAR***** */
 
 
@@ -146,7 +179,7 @@ $partida = jugarWordix("MELON", strtolower("MaJo"));
 /******** MENU DE ELECCION ********/
 
 do {
-    $opcion = trim(fgets(STDIN));    
+    $opcion = trim(fgets(STDIN));
     switch ($opcion) {
         case 1: 
             jugarPalabraElegida();
@@ -167,7 +200,7 @@ do {
             mostrarListadoOrdenado();
             break;
         case 7:
-            agregarUnaPalabra();
+            agregarUnaPalabra($palabraNueva, $coleccionPalabras);
             break;    
         case 8:
             echo "Saliendo del programa";
