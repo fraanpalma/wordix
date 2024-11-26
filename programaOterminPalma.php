@@ -102,10 +102,29 @@ function jugarPalabraAleatoria() {
  * muestra en pantalla los datos de la partida. Si el numero de
  * partida no existe, el programa le solicita un numero de partida
  * correcto.
+ * @param array[]
  */
-function mostrarUnaPartida() {
+function mostrarUnaPartida($coleccionPartidas) {
+    //Int $numero, $n, $i
+    
+    do {    //se valida que el numero no se pase de los límites del arreglo, si se ingresa un numero que se pasa, se vuelve a pedir el número hasta que se escriba uno correcto
+        echo "Numero de partida a mostrar:\n";
+        $numero = trim(fgets(STDIN));
+        $n = count($coleccionPartidas);
+    }while ($numero > $n || !(is_numeric($numero)) || $numero <= 0);
 
-}
+    echo "*******************************************\n";
+    echo "Partida WORDIX " .  ($numero--) . ": palabra " . $coleccionPartidas[$numero]["palabraWordix"] . "\n";
+    echo "Jugador: " . $coleccionPartidas[$numero]["jugador"] . "\n";
+    echo "Puntaje: " . $coleccionPartidas[$numero]["puntaje"] . " puntos \n";
+    if($coleccionPartidas[$numero]["intentos"] > 0){
+        echo "Intento: adivinó la palabra en " . $coleccionPartidas[$numero]["intentos"] . " intentos \n";
+    }else{
+        echo "Intento: no adivinó la palabra.\n";
+    }
+    echo "*******************************************\n";
+    }
+
 
 /**
  * Funcion que le solicita al usuario un nombre de jugador y se 
@@ -139,15 +158,20 @@ function mostrarListadoOrdenado() {
  * Funcion que le solicita al usuario una palabra de 5 letras y la 
  * agrega en mayusculas a la coleccion de palabras Wordix, para que
  * el usuario pueda utilizarla para jugar.
+ * @param array[]
+ * @return array[]
  */
-function agregarUnaPalabra($palabraNueva, $coleccionPalabras) {
-    $palabraNueva = strtoupper($palabraNueva);
-    //Se asigna el valor total de elementos del array de coleccion de palabras a esta etiqueta
-    $indiceNuevo = count($coleccionPalabras);
+function agregarUnaPalabra($coleccionPalabras) {
+    $palabraNueva = leerPalabra5Letras(); //esta función valida que la palabra tenga 5 letras y la pasa a mayúscula
+
+    while ((in_array($palabraNueva, $coleccionPalabras))){ //se valida que la palabra no esté repetida en el array coleccionPalabras, pidiendo una hasta que sea valida totalmene
+        echo "Palabra repetida.\n";
+        $palabraNueva = leerPalabra5Letras();
+    } 
+    //si la palabra no se repite, entonces se agrega al array
+    $indiceNuevo = count($coleccionPalabras);//Se asigna el valor total de elementos del array de coleccion de palabras a esta etiqueta
+    $coleccionPalabras[$indiceNuevo] = $palabraNueva;//La nueva palabra se asigna a la colección ya existente en la ultima posición usando la longitud del array
     
-    //La nueva palabra se asigna a la colección ya existente en la ultima posición usando la longitud del array
-    $coleccionPalabras[$indiceNuevo] = $palabraNueva;
-        
     return $coleccionPalabras;
     }
 
@@ -219,13 +243,13 @@ do {
      $opcion = seleccionarOpcion();
      switch ($opcion) {
         case 1: 
-            jugarPalabraElegida();
+            jugarPalabraElegida($coleccionPalabras);
             break;
         case 2: 
             jugarPalabraAleatoria();
             break;
         case 3: 
-            mostrarUnaPartida();
+            mostrarUnaPartida($coleccionPartidas);
             break;     
         case 4:
             mostrarPrimerPartidaGanadora();
