@@ -405,7 +405,7 @@ do {
             mostrarResumenJugador($coleccionPartidas,$nombreJugador);
             break;
         case 6:
-            mostrarListadoOrdenado($coleccionPartidas);
+            mostrarListadoOrdenado();
             break;
         case 7:
             agregarUnaPalabra($coleccionPalabras);
