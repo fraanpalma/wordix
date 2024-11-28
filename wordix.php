@@ -348,18 +348,19 @@ function esIntentoGanado($estructuraPalabraIntento) {
 }
 
 /**
- * función que calcula el puntaje de Wordix en base a: la cantidad de intentos y a la clasificación de letras de cada palabra
+ * función que calcula el puntaje de Wordix en base a: la cantidad de intentos y a la clasificación de letras
+ * de cada palabra
+ * @param string $palabraWordix
+ * @param string $nombreUsuario
  * @return int
  */
 function obtenerPuntajeWordix($palabraWordix, $nombreUsuario) {
-    //array $arrayPartida
-    //int $ptje, $longitudPalabra
-    //string $verificarPalabra
+    //Array $arrayPartida estructura multidimensional de arreglos asociativos
+    //Int $ptje, $longitudPalabra
+    //String $verificarPalabra
     
-    $arrayPartida = jugarWordix($palabraWordix, $nombreUsuario); 
     $ptje = 0;
-    //**segun el intento es el puntaje, menor intentos equivale a más puntaje**//
-    //**uso el switch en lugar de un if ya que solo hago una comparación y es más limpio, en vez de tener muchas alternativas**//
+    $arrayPartida = jugarWordix($palabraWordix, $nombreUsuario);
     switch ($arrayPartida["intento"]) { 
         case 1:
             $ptje = 6;           
@@ -385,32 +386,22 @@ function obtenerPuntajeWordix($palabraWordix, $nombreUsuario) {
     }
     
     $longitudPalabra = strlen($arrayPartida["palabra"]);
-    $verificarPalabra = esPalabra($arrayPartida["palabra"]); //verifico que la palabra ingresada es válida
+    $verificarPalabra = esPalabra($arrayPartida["palabra"]); 
 
     if ($verificarPalabra && $longitudPalabra == 5){
-    //**acá no usé la función leerPalabra5Letras que verifica la longitud de la palabra para no tener que llamarla todo el tiempo dado que solo necesito veriticar que la palabra tenga 5 letras**//
-
         for ($i=0; $i < $longitudPalabra; $i++){
-            //**no usé un switch para evitar la repetición del acumulador de suma en cada case, porque siempre iba a solo sumar 2 puntos**//
-            //**esta primera alternativa da un 2 puntos si la letra es una consonante hasta la M inclusive**//
-            if ($arrayPartida["palabra"] == "B" || $arrayPartida["palabra"] == "C" || $arrayPartida["palabra"] == "D" || $arrayPartida["palabra"] == "F" ||     $arrayPartida["palabra"] == "G" || $arrayPartida["palabra"] == "H" || $arrayPartida["palabra"] == "J" ||$arrayPartida["palabra"] == "K" ||$arrayPartida["palabra"]  [$i] == "L" ||$arrayPartida["palabra"] == "M"){ 
-                $ptje += 2;
-            }
-
-            //**esta segunda sentencia da 1 punto si la letra es vocal**//
-            elseif($arrayPartida["palabra"] == "A" || $arrayPartida["palabra"] == "E" || $arrayPartida["palabra"] == "I" || $arrayPartida["palabra"] == "O" ||  $arrayPartida["palabra"] == "U"){
+            if ($arrayPartida["palabra"] == "A" || $arrayPartida["palabra"] == "E" || $arrayPartida["palabra"] == "I" || $arrayPartida["palabra"] == "O" ||$arrayPartida["palabra"] == "U"){
                 $ptje += 1;
-
-            }//**la ultima alternativa solo toma a las consonantes a partir de la N, sin contar a las anteriores ni a las vocales, ya que son tomadas en las condiciones previas**//
-            else{
+            }elseif($arrayPartida["palabra"] < "M"){
                 $ptje += 3;
+            }else{
+                $ptje +=2;
             }
         }
     }else{
-        echo "error, palabra erronea o de longitud no aceptada.\n"; //**este mensaje se puede quitar**/
+        echo "Error. Palabra incorrecta o de longitud no aceptada.\n";
     }
     return $ptje;
-
 }
 
 /**

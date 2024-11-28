@@ -341,6 +341,29 @@ function solicitarNombreJugador() {
     return $nombreJugador;
 }
 
+/**
+ * Función que solicita al usuario el nombre de un jugador y retorna dicho nombre en minúsculas. 
+ * La función verifica que el nombre del jugador comienza con una letra. 
+ * @return string
+*/
+function solicitarJugador(){
+    //Boolean $nombreValido
+    //String $jugador
+    $nombreValido = false; //bandera inicializada en falso para después verificar si el nombre es correcto
+    do {
+        echo "Ingrese el nombre de un jugador: \n";
+        $jugador = trim(fgets(STDIN));
+        if ((esPalabra($jugador))){ //si la función esPalabra es TRUE significa que todas las letras del nombre son validas
+           $nombreValido = true; //implica que el nombre está verificado 
+        }else{
+            echo "Nombre inválido, ingrese uno correcto.\n";
+            $jugador = trim(fgets(STDIN));
+        }
+    }while(!$nombreValido); //se repite mientras el nombre no cumpla con los requisitos
+
+    return strtolower($jugador); //una vez que es valido, se lo retorna en minusculas
+}
+
 
 //PROGRAMA PRINCIPAL
 
