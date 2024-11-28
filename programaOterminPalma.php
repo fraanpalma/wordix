@@ -79,9 +79,10 @@ function cargarPartidas() {
  * @return
  */
 function jugarPalabraElegida($coleccionPalabras,$nombreUsuario) {
-    //int $indice, $opcion
+    //int $indice, $opcion, $cantidad
     //string $palabra, $palabraElegida
     //array $partida
+    $cantidad = count($coleccionPalabras);
 
 // Mostrar las palabras disponibles y pedir al jugador que elija una
 echo "Elija una palabra de la siguiente colección de palabras:\n";
@@ -94,7 +95,7 @@ echo "Ingrese el número de la palabra que desea jugar: ";
 $opcion = trim(fgets(STDIN)) - 1; // Restamos 1 para coincidir con el índice del arreglo
 
 // Validar que la opción esté dentro del rango
-if ($opcion >= 0 && $opcion < count($coleccionPalabras)) {
+if ($opcion >= 0 && $opcion < $cantidad) {
     $palabraElegida = $coleccionPalabras[$opcion];
 
     // Llamar a la función de jugar con la palabra elegida
@@ -143,8 +144,8 @@ function mostrarUnaPartida($coleccionPartidas) {
     do {    //se valida que el numero no se pase de los límites del arreglo, si se ingresa un numero que se pasa, se vuelve a pedir el número hasta que se escriba uno correcto
         echo "Numero de partida a mostrar:\n";
         $numero = trim(fgets(STDIN));
-        $n = count($coleccionPartidas);
-    }while ($numero > $n || !(is_numeric($numero)) || $numero <= 0);
+        $cantidad= count($coleccionPartidas);
+    }while ($numero > $cantidad || !(is_numeric($numero)) || $numero <= 0);
 
     echo "*******************************************\n";
     echo "Partida WORDIX " .  ($numero--) . ": palabra " . $coleccionPartidas[$numero]["palabraWordix"] . "\n";
@@ -165,8 +166,23 @@ function mostrarUnaPartida($coleccionPartidas) {
  * En caso que el jugador no haya ganado ninguna partida se 
  * le muestra por pantalla un texto significativo.
  */
-function mostrarPrimerPartidaGanadora() {
-
+function mostrarPrimeraPartidaGanadora($coleccionPartidas){
+    //Int $i, $primeraGanada
+    //Boolean $bandera
+    $primeraGanada = -1;
+    $primeraEncontrada = false;
+    $cantidad = count($coleccionPartidas);
+    $i = 0;
+    
+    $nombreJugador = solicitarNombreJugador();
+    while ($i < $cantidad && !$primeraEncontrada) { // se recorre el arreglo para ver si coincide el nombre y la primera partida ganada
+        if ($coleccionPartidas[$i]['jugador'] == $nombreJugador && $coleccionPartidas[$i]['puntaje'] > 0) {
+            $primeraGanada = $coleccionPartidas[$i];
+            $primeraEncontrada = true;
+        }
+        $i++;
+        }
+    return $primeraGanada;
 }
 
 /**
@@ -225,6 +241,9 @@ function mostrarResumenJugador($coleccionPartidas,$nombreJugador) {
  * Funcion que muestra por pantalla la estructura ordenada alfabeticamente
  * por jugador y por palabra, utilizando la funcion predefinida uasort de php
  * y la funcion predefinida print_r .
+ * Funcion uasort: Ordena un array con una función de comparación definida por el usuario y mantiene la asociación de índices
+ * Funcion print_r: imprime información legible sobre una variable, en caso de recibir un arreglo los valores son presentados en un formato que
+ * muestra las claves y los elementos.
  * @param array $coleccionPartidas 
  */
 function mostrarListadoOrdenado($coleccionPartidas) {
@@ -255,13 +274,13 @@ function mostrarListadoOrdenado($coleccionPartidas) {
  * @param array[]
  * @return array[]
  */
-function agregarUnaPalabra($coleccionPalabras) {
+function agregarPalabra($coleccionPalabras) {
     //string $palabraNueva
     //int $indiceNuevo
 
     $palabraNueva = leerPalabra5Letras(); //esta función valida que la palabra tenga 5 letras y la pasa a mayúscula
 
-    while (esPalabraRepetida($coleccionPalabras, $palabraNueva)) { //funcion que vericia que la palabra no este repetida en el arreglo
+    while (esPalabraRepetida($coleccionPalabras, $palabraNueva)) { //funcion que verifica que la palabra no este repetida en el arreglo
         echo "Palabra repetida.\n";
         $palabraNueva = leerPalabra5Letras(); // Solicitar una nueva palabra
     } 
@@ -280,11 +299,14 @@ function agregarUnaPalabra($coleccionPalabras) {
  * @return bool 
  */
 function esPalabraRepetida($coleccionPalabras, $palabraNueva) {
+    //Boolean $esRepetida
+    //Int $i
+    $cantidad = count($coleccionPalabras);
     $esRepetida = false; // Inicializar la variable bandera como falsa
     $i = 0;
 
     // Recorrer el arreglo mientras no se encuentre la palabra repetida
-    while (!$esRepetida && $i < count($coleccionPalabras)) {
+    while (!$esRepetida && $i < $cantidad) {
         if ($coleccionPalabras[$i] === $palabraNueva) {
             $esRepetida = true; // Cambiar la bandera si se encuentra la palabra
         }
@@ -342,7 +364,7 @@ function solicitarNombreJugador() {
 }
 
 /**
- * Función que solicita al usuario el nombre de un jugador y retorna dicho nombre en minúsculas. 
+ * Función que usa un modulo para solicitarle el nombre a un jugador y retorna dicho nombre en minúsculas. 
  * La función verifica que el nombre del jugador comienza con una letra. 
  * @return string
 */
@@ -351,8 +373,7 @@ function solicitarJugador(){
     //String $jugador
     $nombreValido = false; //bandera inicializada en falso para después verificar si el nombre es correcto
     do {
-        echo "Ingrese el nombre de un jugador: \n";
-        $jugador = trim(fgets(STDIN));
+        $jugador = solicitarNombreJugador();
         if ((esPalabra($jugador))){ //si la función esPalabra es TRUE significa que todas las letras del nombre son validas
            $nombreValido = true; //implica que el nombre está verificado 
         }else{
@@ -366,6 +387,7 @@ function solicitarJugador(){
 
 
 //PROGRAMA PRINCIPAL
+//Qué hace el programa
 
 //Declaración de variables:
 
@@ -390,25 +412,25 @@ do {
      $opcion = seleccionarOpcion();
      switch ($opcion) {
         case 1: 
-            jugarPalabraElegida($coleccionPalabras);
+            jugarPalabraElegida($coleccionPalabras, $nombreUsuario);
             break;
         case 2: 
-            jugarPalabraAleatoria($coleccionPalabras);
+            jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario);
             break;
         case 3: 
             mostrarUnaPartida($coleccionPartidas);
             break;     
         case 4:
-            mostrarPrimerPartidaGanadora();
+            mostrarPrimeraPartidaGanadora($coleccionPartidas);
             break;
         case 5:
             mostrarResumenJugador($coleccionPartidas,$nombreJugador);
             break;
         case 6:
-            mostrarListadoOrdenado();
+            mostrarListadoOrdenado($coleccionPartidas);
             break;
         case 7:
-            agregarUnaPalabra($coleccionPalabras);
+            agregarPalabra($coleccionPalabras);
             break;    
         case 8:
             echo "Saliendo del programa";
