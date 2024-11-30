@@ -29,6 +29,9 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 /**
  *  Solicita al usuario que ingrese un número dentro de un rango específico y
  *  valida que el ingreso sea correcto antes de devolverlo.
+ * @param int $min
+ * @param int $max
+ * @return int
  */
 function solicitarNumeroEntre($min, $max) {
     //int $numero
@@ -121,9 +124,9 @@ function escribirSegunEstado($texto, $estado) {
 }
 
 /** 
- * la función muestra por pantalla un mensaje de bienvenida a un usuario
+ * Función que muestra por pantalla un mensaje de bienvenida a un usuario
  * que ingresa como parametro formal, usando una función para colocar el 
- * texto en amarillo; no retorna nada.
+ * texto en amarillo; no retorna.
  * @param string $usuario
  */
 function escribirMensajeBienvenida($usuario) {
@@ -136,8 +139,10 @@ function escribirMensajeBienvenida($usuario) {
 }
 
 /**
- * funcion que recibe como parametro una cadena de caracteres y
- * verifica que cada caracter sea una letra.
+ * Funcion que recibe como parametro una cadena de caracteres y
+ * verifica que cada caracter sea una letra. 
+ * @param string $cadena
+ * @return boolean
  */
 function esPalabra($cadena) {
     //int $cantCaracteres, $i 
@@ -157,7 +162,7 @@ function esPalabra($cadena) {
 }
 
 /**
- * función que le pide al usuario una palabra de cinco letras y usa una funcion para pasarla a mayusculas,
+ * Función que le pide al usuario una palabra de cinco letras y usa la funcion strtoupper para pasarla a mayusculas
  *  verificando que la palabra tenga siempre 5 letras, luego la retorna ya en mayusculas;
  *  no hay parámetro formal.
  * @return string
@@ -394,7 +399,7 @@ function jugarWordix($palabraWordix, $nombreUsuario) {
     } else { 
         $nroIntento = 0; 
         $puntaje = 0; 
-        echo "Seguí Jugando Wordix, la próxima será! ";
+        echo "Seguí jugando Wordix, la próxima será! \n";
     }
 
     $partida = [
@@ -408,15 +413,15 @@ function jugarWordix($palabraWordix, $nombreUsuario) {
 }
 
 /**
- * función que calcula el puntaje de Wordix en base a: la cantidad de intentos y a la clasificación de letras
- * de cada palabra
+ * Función que calcula el puntaje de Wordix en base a: la cantidad de intentos del usuario y a la clasificación de letras
+ * de cada palabra 
  * @param string $palabraWordix
- * @param string $nombreUsuario
+ * @param string $nroIntento
  * @return int
  */
 function obtenerPuntajeWordix($palabraWordix, $nroIntento) {
-    // string $palabraWordix, $letra
-    // int $intentos, $puntajeIntentos, $puntajeLetras, $i, $puntaje
+    //String $palabraWordix, $letra
+    //Int $intentos, $puntajeIntentos, $puntajeLetras, $i, $puntaje
 
 
     // Calcular el puntaje según los intentos.
@@ -434,16 +439,14 @@ function obtenerPuntajeWordix($palabraWordix, $nroIntento) {
     } elseif ($nroIntento === 6) {
         $puntajeIntentos = 1;
     }
-
    
     $puntajeLetras = 0;
 
-    // Recorrido (total) de cada letra de la palabra jugada.
+    //Recorrido (total) de cada letra de la palabra jugada.
     for ($i = 0; $i < strlen($palabraWordix); $i++) {
         $letra = strtoupper($palabraWordix[$i]); 
 
         // Puntaje de cada letra.
-
         // Puntaje vocales.
         if ($letra === "A" || $letra === "E" || $letra === "I" || $letra === "O" || $letra === "U") {
             $puntajeLetras += 1; 
