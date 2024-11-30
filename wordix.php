@@ -422,25 +422,30 @@ function jugarWordix($palabraWordix, $nombreUsuario) {
 function obtenerPuntajeWordix($palabraWordix, $nroIntento) {
     //String $palabraWordix, $letra
     //Int $intentos, $puntajeIntentos, $puntajeLetras, $i, $puntaje
-
-
-    // Calcular el puntaje según los intentos.
     $puntajeIntentos = 0;
-    if ($nroIntento === 1) {
-        $puntajeIntentos = 6;
-    } elseif ($nroIntento === 2) {
-        $puntajeIntentos = 5;
-    } elseif ($nroIntento === 3) {
-        $puntajeIntentos = 4;
-    } elseif ($nroIntento === 4) {
-        $puntajeIntentos = 3;
-    } elseif ($nroIntento === 5) {
-        $puntajeIntentos = 2;
-    } elseif ($nroIntento === 6) {
-        $puntajeIntentos = 1;
-    }
-   
     $puntajeLetras = 0;
+
+    // Calcula el puntaje según los intentos.
+    switch ($nroIntento) {
+        case '1':
+            $puntajeIntentos = 6;
+            break;
+        case '2':
+            $puntajeIntentos = 5;
+            break;
+        case '3':
+            $puntajeIntentos = 4;
+            break;
+        case '4':
+            $puntajeIntentos = 3;
+            break;
+        case '5':
+            $puntajeIntentos = 2;
+            break;
+        case '6':
+            $puntajeIntentos = 1;
+            break;
+    }
 
     //Recorrido (total) de cada letra de la palabra jugada.
     for ($i = 0; $i < strlen($palabraWordix); $i++) {

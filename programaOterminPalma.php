@@ -264,23 +264,18 @@ function mostrarUnaPartida($coleccionPartidas)
 
 
 /**
- * Funcion que dada una colección de partidas y el nombre de un jugador, 
- * retorna el índice de la primera partida ganada por dicho jugador, o
- * si el jugador ganó ninguna partida, retorna el valor -1.
+ * Función que verifica si un usuario solicitado existe dentro
+ * del arreglo coleccionPartidas, el bucle no se detiene hasta que
+ * se ingrese un usuario válido y verificado
  * @param array[]
- * @return int
- */
-function mostrarPrimeraPartidaGanadora($coleccionPartidas)
-{
-    //Boolean $nombreValido, $partidaEncontrada
-    //Int $primeraGanada, $i, $j, $cantidad
-    $indicePrimeraGanada = -1;
-    $j = 0;
+ * @return string
+*/
+function verificarExistenciaJugador($coleccionPartidas){
+    //Boolean $nombreValido,
+    //Int  $i, $j, $cantidad
     $nombreValido = false;
-    $partidaEncontrada = false;
     $cantidad = count($coleccionPartidas);
 
-    //bucle que verifica que el jugador exista dentro del arreglo, no sale hasta que no se ingresa un nombre correcto
     do {
         $nombreJugador = solicitarJugador();
         $i = 0; //el reinicio del contador sirve para que en cada bucle la busqueda empiece otra vez y no comience a buscar desde donde se quedó antes ignorando a los nombres anteriores
@@ -291,14 +286,34 @@ function mostrarPrimeraPartidaGanadora($coleccionPartidas)
             $i++;
         }
     } while (!$nombreValido);
+    return $nombreJugador;
+}
+
+/**
+ * Funcion que dada una colección de partidas y el nombre de un jugador, 
+ * retorna el índice de la primera partida ganada por dicho jugador, o
+ * si el jugador ganó ninguna partida, retorna el valor -1.
+ * @param array[]
+ * @return int
+ */
+function mostrarPrimeraPartidaGanadora($coleccionPartidas)
+{
+    //Boolean$partidaEncontrada
+    //Int $indicePrimeraGanada, $i, $cantidad
+    $indicePrimeraGanada = -1;
+    $i = 0;
+    $partidaEncontrada = false;
+    $cantidad = count($coleccionPartidas);
+
+    $nombreJugador = verificarExistenciaJugador($coleccionPartidas);
 
     //bucle que busca la primera partida ganada por ese jugador ya verificado
-    while ($j < $cantidad && !$partidaEncontrada) {
-        if ($coleccionPartidas[$j]['jugador'] == $nombreJugador && $coleccionPartidas[$j]['puntaje'] > 0) {
-            $indicePrimeraGanada = $j;
+    while ($i < $cantidad && !$partidaEncontrada) {
+        if ($coleccionPartidas[$i]['jugador'] == $nombreJugador && $coleccionPartidas[$i]['puntaje'] > 0) {
+            $indicePrimeraGanada = $i;
             $partidaEncontrada = true;
         }
-        $j++;
+        $i++;
     }
     return $indicePrimeraGanada;
 }
@@ -313,26 +328,8 @@ function mostrarResumenJugador($coleccionPartidas)
 {
     //Array $resumenJugador, $partida
     //String $nombreJugador
-    //Int $cantidad, $i
-    //Boolean $nombreValido
 
-    $nombreValido = false;
-    $cantidad = count($coleccionPartidas);
-
-    echo ">Por favor ingrese el nombre del jugador para ver su resumen: ";
-
-    // bucle que verifica que el jugador exista dentro del arreglo, no sale hasta que no se ingresa un nombre correcto
-    do {
-        $nombreJugador = solicitarJugador();
-        $i = 0; //El reinicio del contador sirve para que en cada bucle la busqueda empiece otra vez y no comience a buscar desde donde se quedó antes, ignorando a los nombres anteriores
-        while ($i < $cantidad && !$nombreValido) {
-            if ($nombreJugador == $coleccionPartidas[$i]['jugador']) {
-                $nombreValido = true;
-            }
-            $i++;
-        }
-    } while (!$nombreValido);
-
+    $nombreJugador = verificarExistenciaJugador($coleccionPartidas);
     //Inicializa el resumen del jugador, funciona como acumulador
     $resumenJugador = [
         "jugador" => $nombreJugador,
@@ -518,12 +515,12 @@ function solicitarJugador()
 {
     //Boolean $esValido
     //String $nombre
-
     $esValido = false;
     do {
         echo "Por favor ingrese el nombre del jugador: ";
         $nombre = trim(fgets(STDIN));
-        if (ctype_alpha($nombre[0])) {
+        $cantidad = strlen($nombre);
+        if (($cantidad > 0) && ctype_alpha($nombre[0])) {
             $esValido = true;
         }
     } while (!$esValido);
