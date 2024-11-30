@@ -119,37 +119,66 @@ function cargarPartidas()
  * los datos se guardan en una estructura de datos de partidas.
  * @param string[] indexado
  * @param string $nombreUsuario
+ * @return array $coleccionPartidas (actualizado)
  */
-function jugarPalabraElegida($coleccionPalabras, $nombreUsuario)
-{
+function jugarPalabraElegida($coleccionPalabras, $nombreUsuario) {
     //Int $indice, $opcion, $cantidad
     //String $palabra, $palabraElegida
     //Array $partida
 
     $cantidad = count($coleccionPalabras);
 
-    // Muestra las palabras disponibles y pide al jugador que elija una
+    // Muestra las palabras disponibles y pide al jugador que elija una.
     echo "Por favor, elija una palabra de la siguiente colección de palabras: \n";
     foreach ($coleccionPalabras as $indice => $palabra) {
         echo ($indice + 1) . ". $palabra\n";
     }
 
-    // Solicita la opción de palabra al usuario
-    echo "Ingrese el número de la palabra que desea jugar: ";
-    $opcion = trim(fgets(STDIN)) - 1; // Restamos 1 para coincidir con el índice del arreglo
+    // Inicializo las variables.
+    $palabraElegida = "";
+    $coleccionPartidas = cargarPartidas();
 
-    // Valida que la opción esté dentro del rango
-    if ($opcion >= 0 && $opcion < $cantidad) {
-        $palabraElegida = $coleccionPalabras[$opcion];
+    // Bucle que solicita la palabra mientras cumpla las condiciones.
+    do{ 
+        // Solicita la opción de palabra al usuario/
+        echo "Ingrese el número de la palabra que desea jugar: \n";
+        $opcion = trim(fgets(STDIN)) - 1; // Restamos 1 para coincidir con el índice del arreglo
 
-        //Llama a la función de jugar con la palabra elegida
+        // Valida que la opción esté dentro del rango
+        if ($opcion >= 0 && $opcion < $cantidad) {
+            $palabraElegida = $coleccionPalabras[$opcion];
+        
+            // Verifica que la palabra no haya sido jugada por el jugador.  
+            // Inicializo variable bandera.          
+            $palabraJugada = false;
+            foreach ($coleccionPartidas as $partida) {
+                if ($partida["palabraWordix"] === $palabraElegida && $nombreUsuario === $partida["jugador"]) {
+                    $palabraJugada = true;
+                }      
+            }
+            // Si la palabra ya fue jugada se le avisa al jugador.
+            if ($palabraJugada) {
+                echo "Palabra ya jugada! Elija otra para jugar! \n";
+                $palabraElegida = ""; // Reinicio la variable.
+            }
+        } else {
+            echo "ERROR: opcion invalida! elija una una palabra dentro de las opciones! \n"; // Mensaje en caso que ingrese una opcion fuera de la coleccion.
+        }  
+            
+    } while ($palabraElegida === ""); 
+
+        //Llama a la función de jugar con la palabra elegida.
         $partida = jugarWordix($palabraElegida, $nombreUsuario);
-        print_r($partida); // Mostrar el resumen de la partida
-    } else {
-        echo "ERROR: opción no válida. Intente nuevamente.\n";
-        jugarPalabraElegida($coleccionPalabras, $nombreUsuario); // Recursividad para volver a intentar
-    }
+
+        // Mostrar el resumen de la partida.
+        print_r($partida); 
+
+        // Guardo la partida en la coleccion.
+        $coleccionPartidas[] = $partida;
+
+        return $coleccionPartidas;
 }
+
 
 /**
  * Funcion que permite al usuario jugar una partida
@@ -160,21 +189,48 @@ function jugarPalabraElegida($coleccionPalabras, $nombreUsuario)
  * una estructura de datos de partidas.
  * @param string[] indexado
  * @param string $nombreUsuario
- * @return
+ * @return array $coleccionPartidas (actualizado)
  */
 function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario)
 {
     //String $palabraAleatoria
     //Array $partida
 
-    // Seleccionar una palabra aleatoria de la colección
-    $palabraAleatoria = $coleccionPalabras[array_rand($coleccionPalabras)];
+    // Inicializo las variables.
+    $palabraAleatoria = "";
+    $coleccionPartidas = cargarPartidas();
 
-    // Llamar a la función de jugar con la palabra aleatoria
-    $partida = jugarWordix($palabraAleatoria, $nombreUsuario);
-    print_r($partida); // Mostrar el resumen de la partida
+    do {
+            // Seleccionar una palabra aleatoria de la colección
+            $palabraAleatoria = $coleccionPalabras[array_rand($coleccionPalabras)];
 
-    return $partida;
+            // Verifica que la palabra no haya sido jugada por el jugador.              
+            // Inicializo variable bandera.          
+            $palabraJugada = false;
+            foreach ($coleccionPartidas as $partida) {
+                if ($partida["palabraWordix"] === $palabraAleatoria && $nombreUsuario === $partida["jugador"]) {
+                    $palabraJugada = true;
+                }      
+            }
+            // Si la palabra ya fue jugada se le avisa al jugador.
+            if ($palabraJugada) {
+                $palabraAleatoria = ""; // Reinicio la variable.
+            }   
+
+        } while ($palabraAleatoria === "");
+
+        echo "Palabra elegida! A jugar!!!\n";
+
+        // Llamar a la función de jugar con la palabra aleatoria
+        $partida = jugarWordix($palabraAleatoria, $nombreUsuario);
+
+        // Mostrar el resumen de la partida
+        print_r($partida); 
+
+        // Guardo la partida en la coleccion.
+        $coleccionPartidas[] = $partida;
+
+    return $coleccionPartidas;
 }
 
 /**
