@@ -348,63 +348,6 @@ function esIntentoGanado($estructuraPalabraIntento) {
 }
 
 /**
- * función que calcula el puntaje de Wordix en base a: la cantidad de intentos y a la clasificación de letras
- * de cada palabra
- * @param string $palabraWordix
- * @param string $nombreUsuario
- * @return int
- */
-function obtenerPuntajeWordix($palabraWordix, $nombreUsuario) {
-    //Array $arrayPartida estructura multidimensional de arreglos asociativos
-    //Int $ptje, $longitudPalabra
-    //String $verificarPalabra
-    
-    $ptje = 0;
-    $arrayPartida = jugarWordix($palabraWordix, $nombreUsuario);
-    switch ($arrayPartida["intento"]) { 
-        case 1:
-            $ptje = 6;           
-            break;
-        case 2:
-            $ptje = 5;           
-            break;
-        case 3:
-            $ptje = 4;           
-            break;
-        case 4:
-            $ptje = 3;           
-            break;
-        case 5:
-            $ptje = 2;           
-            break;
-        case 6:  
-            $ptje = 1;           
-            break;
-        default:
-            $ptje = 0;
-            break;
-    }
-    
-    $longitudPalabra = strlen($arrayPartida["palabra"]);
-    $verificarPalabra = esPalabra($arrayPartida["palabra"]); 
-
-    if ($verificarPalabra && $longitudPalabra == 5){
-        for ($i=0; $i < $longitudPalabra; $i++){
-            if ($arrayPartida["palabra"] == "A" || $arrayPartida["palabra"] == "E" || $arrayPartida["palabra"] == "I" || $arrayPartida["palabra"] == "O" ||$arrayPartida["palabra"] == "U"){
-                $ptje += 1;
-            }elseif($arrayPartida["palabra"] < "M"){
-                $ptje += 3;
-            }else{
-                $ptje +=2;
-            }
-        }
-    }else{
-        echo "Error. Palabra incorrecta o de longitud no aceptada.\n";
-    }
-    return $ptje;
-}
-
-/**
  * Dada una palabra para adivinar, juega una partida de wordix intentando que el usuario adivine la palabra.
  * @param string $palabraWordix
  * @param string $nombreUsuario
@@ -446,8 +389,8 @@ function jugarWordix($palabraWordix, $nombreUsuario) {
 
     if ($ganoElIntento) { 
         $nroIntento--; 
-        $puntaje = obtenerPuntajeWordix($palabraWordix, $nombreUsuario);//**modificado en base a la función anterior**//
-        echo "Adivinó la palabra Wordix en el intento " . $nroIntento . "!: " . $palabraIntento . " Obtuvo $puntaje puntos!";
+        $puntaje = obtenerPuntajeWordix($palabraWordix, $nroIntento);//**modificado en base a la función anterior**//
+        echo "Adivinó la palabra Wordix en el intento " . $nroIntento . "!: " . $palabraIntento . " Obtuvo $puntaje puntos!\n";
     } else { 
         $nroIntento = 0; 
         $puntaje = 0; 
@@ -462,4 +405,59 @@ function jugarWordix($palabraWordix, $nombreUsuario) {
     ];
 
     return $partida;
+}
+
+/**
+ * función que calcula el puntaje de Wordix en base a: la cantidad de intentos y a la clasificación de letras
+ * de cada palabra
+ * @param string $palabraWordix
+ * @param string $nombreUsuario
+ * @return int
+ */
+function obtenerPuntajeWordix($palabraWordix, $nroIntento) {
+    // string $palabraWordix, $letra
+    // int $intentos, $puntajeIntentos, $puntajeLetras, $i, $puntaje
+
+
+    // Calcular el puntaje según los intentos.
+    $puntajeIntentos = 0;
+    if ($nroIntento === 1) {
+        $puntajeIntentos = 6;
+    } elseif ($nroIntento === 2) {
+        $puntajeIntentos = 5;
+    } elseif ($nroIntento === 3) {
+        $puntajeIntentos = 4;
+    } elseif ($nroIntento === 4) {
+        $puntajeIntentos = 3;
+    } elseif ($nroIntento === 5) {
+        $puntajeIntentos = 2;
+    } elseif ($nroIntento === 6) {
+        $puntajeIntentos = 1;
+    }
+
+   
+    $puntajeLetras = 0;
+
+    // Recorrido (total) de cada letra de la palabra jugada.
+    for ($i = 0; $i < strlen($palabraWordix); $i++) {
+        $letra = strtoupper($palabraWordix[$i]); 
+
+        // Puntaje de cada letra.
+
+        // Puntaje vocales.
+        if ($letra === "A" || $letra === "E" || $letra === "I" || $letra === "O" || $letra === "U") {
+            $puntajeLetras += 1; 
+        // Puntaje letras anteriores a la M , incluida esta ultima.
+        } elseif ($letra <= "M") { 
+            $puntajeLetras += 2;
+        // Puntaje letras posteriores a la M.
+        } else { 
+            $puntajeLetras += 3;
+        }
+    }
+
+    // Puntaje total 
+    $puntaje = $puntajeIntentos + $puntajeLetras;
+
+    return $puntaje;
 }
