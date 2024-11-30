@@ -539,7 +539,7 @@ do {
             agregarPalabra($coleccionPalabras);
             break;
         case 8:
-            echo "Ha salido WORDIX.\n";
+            echo "Saliste de Wordix.\n";
             break;
     }
 } while ($opcion != 8);
