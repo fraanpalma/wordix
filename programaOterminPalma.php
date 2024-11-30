@@ -37,8 +37,7 @@ include_once("wordix.php");
  * Función que inicializa y retorna una colección de treina palabras
  * @return string[] indexado
  */
-function cargarColeccionPalabras()
-{
+function cargarColeccionPalabras() {
     $coleccionPalabras = [
         "MUJER",
         "QUESO",
@@ -80,8 +79,7 @@ function cargarColeccionPalabras()
  * y retorna dicha colección
  * @return array[]
  */
-function cargarPartidas()
-{
+function cargarPartidas() {
     //Array $coleccionPartidas
 
     $coleccionPartidas = [];
@@ -191,8 +189,7 @@ function jugarPalabraElegida($coleccionPalabras, $nombreUsuario) {
  * @param string $nombreUsuario
  * @return array $coleccionPartidas (actualizado)
  */
-function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario)
-{
+function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario) {
     //String $palabraAleatoria
     //Array $partida
 
@@ -240,8 +237,7 @@ function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario)
  * correcto.
  * @param array[]
  */
-function mostrarUnaPartida($coleccionPartidas)
-{
+function mostrarUnaPartida($coleccionPartidas) {
     //Int $numero, $cantidad
 
     do {    //se valida que el numero no se pase de los límites del arreglo, si se ingresa un numero que se pasa, se vuelve a pedir el número hasta que se escriba uno correcto
@@ -262,7 +258,6 @@ function mostrarUnaPartida($coleccionPartidas)
     echo "*******************************************\n";
 }
 
-
 /**
  * Función que verifica si un usuario solicitado existe dentro
  * del arreglo coleccionPartidas, el bucle no se detiene hasta que
@@ -270,7 +265,7 @@ function mostrarUnaPartida($coleccionPartidas)
  * @param array[]
  * @return string
 */
-function verificarExistenciaJugador($coleccionPartidas){
+function verificarExistenciaJugador($coleccionPartidas) {
     //Boolean $nombreValido,
     //Int  $i, $j, $cantidad
     $nombreValido = false;
@@ -296,8 +291,7 @@ function verificarExistenciaJugador($coleccionPartidas){
  * @param array[]
  * @return int
  */
-function mostrarPrimeraPartidaGanadora($coleccionPartidas)
-{
+function mostrarPrimeraPartidaGanadora($coleccionPartidas) {
     //Boolean$partidaEncontrada
     //Int $indicePrimeraGanada, $i, $cantidad
     $indicePrimeraGanada = -1;
@@ -324,8 +318,7 @@ function mostrarPrimeraPartidaGanadora($coleccionPartidas)
  * estadisticas.
  * @param array[]
  */
-function mostrarResumenJugador($coleccionPartidas)
-{
+function mostrarResumenJugador($coleccionPartidas) {
     //Array $resumenJugador, $partida
     //String $nombreJugador
 
@@ -398,8 +391,7 @@ function mostrarResumenJugador($coleccionPartidas)
  * y la funcion predefinida print_r
  * @param array[]
  */
-function mostrarListadoOrdenado($coleccionPartidas)
-{
+function mostrarListadoOrdenado($coleccionPartidas) {
     //String $resultadoComparacion
 
     // Ordena la colección usando uasort
@@ -426,8 +418,7 @@ function mostrarListadoOrdenado($coleccionPartidas)
  * @param string[] indexado
  * @return array[]
  */
-function agregarPalabra($coleccionPalabras)
-{
+function agregarPalabra($coleccionPalabras) {
     //String $palabraNueva
     //Int $indiceNuevo
 
@@ -451,10 +442,10 @@ function agregarPalabra($coleccionPalabras)
  * @param string $palabraNueva 
  * @return boolean
  */
-function esPalabraRepetida($coleccionPalabras, $palabraNueva)
-{
+function esPalabraRepetida($coleccionPalabras, $palabraNueva) {
     //Boolean $esRepetida
     //Int $i, $cantidad
+
     $cantidad = count($coleccionPalabras);
     $esRepetida = false; //Inicializa la variable bandera como falsa
     $i = 0;
@@ -477,8 +468,9 @@ function esPalabraRepetida($coleccionPalabras, $palabraNueva)
  * válida), y retorna el número de la opción elegida.
  * @return int
  */
-function seleccionarOpcion()
-{
+function seleccionarOpcion() {
+    //int $opcion
+
     do {
         echo ">>>> MENU DE OPCIONES <<<<\n";
 
@@ -511,10 +503,10 @@ function seleccionarOpcion()
  * La función verifica que el nombre del jugador comienza con una letra usando ctype_alpha
  * @return string
  */
-function solicitarJugador()
-{
+function solicitarJugador() {
     //Boolean $esValido
     //String $nombre
+
     $esValido = false;
     do {
         echo "Por favor ingrese el nombre del jugador: ";
@@ -596,3 +588,5 @@ do {
             break;
     }
 } while ($opcion != 8);
+
+?>
