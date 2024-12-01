@@ -131,11 +131,13 @@ function escribirSegunEstado($texto, $estado) {
  */
 function escribirMensajeBienvenida($usuario) {
 
+    echo "\n";
     echo "***************************************************\n"; 
     echo "** Hola ";
     escribirAmarillo($usuario); 
     echo " Juguemos una PARTIDA de WORDIX! **\n";
     echo "***************************************************\n";
+    echo "\n";
 }
 
 /**
@@ -374,6 +376,7 @@ function jugarWordix($palabraWordix, $nombreUsuario) {
     
     do {
 
+        echo "\n";
         echo "Comenzar con el Intento " . $nroIntento . ":\n"; 
         $palabraIntento = leerPalabra5Letras(); 
         $indiceIntento = $nroIntento - 1; 
@@ -395,7 +398,7 @@ function jugarWordix($palabraWordix, $nombreUsuario) {
     if ($ganoElIntento) { 
         $nroIntento--; 
         $puntaje = obtenerPuntajeWordix($palabraWordix, $nroIntento);//**modificado en base a la función anterior**//
-        echo "Adivinó la palabra Wordix en el intento " . $nroIntento . "!: " . $palabraIntento . " Obtuvo $puntaje puntos!\n";
+        echo "> Adivinó la palabra Wordix en el intento " . $nroIntento . "!: " . $palabraIntento . " Obtuvo $puntaje puntos!\n";
     } else { 
         $nroIntento = 0; 
         $puntaje = 0; 
