@@ -208,18 +208,21 @@ function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario)
     // Inicializa las variables.
     $palabraAleatoria = "";
     $coleccionPartidas = cargarPartidas();
+    $i=0;
+    $cantidad= count($coleccionPartidas);
+    $palabraJugada= false;
 
     do {
         // Seleccionar una palabra aleatoria de la colección
         $palabraAleatoria = $coleccionPalabras[array_rand($coleccionPalabras)];
 
         // Verifica que la palabra no haya sido jugada por el jugador.              
-        // Inicializa la variable bandera.          
-        $palabraJugada = false;
-        foreach ($coleccionPartidas as $partida) {
+        while ($i< $cantidad && !$palabraJugada) {
+        $partida = $coleccionPartidas[$i];
             if ($partida["palabraWordix"] === $palabraAleatoria && $nombreUsuario === $partida["jugador"]) {
                 $palabraJugada = true;
             }
+            $i++;
         }
         // Si la palabra ya fue jugada se le avisa al jugador.
         if ($palabraJugada) {
