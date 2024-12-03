@@ -123,24 +123,26 @@ function cargarPartidas()
  * @param string $nombreUsuario
  * @return array $coleccionPartidas (actualizado)
  */
-function jugarPalabraElegida($coleccionPalabras, $nombreUsuario)
+function jugarPalabraElegida($coleccionPalabras, $nombreUsuario, $coleccionPartidas)
 {
     // int $indice, $opcion, $cantidadPartidas, $minimo, $maximo, $i 
     // string $palabra, $palabraElegida
     // array $partida , $coleccionPartidas
     // bool $palabraJugada
 
+    $maximo = count($coleccionPalabras);
+
+
     // Muestra las palabras disponibles y pide al jugador que elija una.
     echo "> Elija una palabra del siguiente listado: \n";
-    foreach ($coleccionPalabras as $indice => $palabra) {
-        echo ($indice + 1) . ". $palabra\n";
+    for($j=0; $j < $maximo;$j++){
+        echo $j . "\n";
     }
 
     // Inicializa las variables.
     $palabraElegida = "";
-    $coleccionPartidas = cargarPartidas();
+    // $coleccionPartidas = cargarPartidas();
     $minimo = 1;
-    $maximo = count($coleccionPalabras);
 
     // Bucle que solicita la palabra mientras cumpla las condiciones.
     do {
@@ -199,7 +201,7 @@ function jugarPalabraElegida($coleccionPalabras, $nombreUsuario)
  * @param string $nombreUsuario
  * @return array $coleccionPartidas (actualizado)
  */
-function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario)
+function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario, $coleccionPartidas)
 {
     // string $palabraAleatoria
     // array $partida , $coleccionPartidas
@@ -226,7 +228,8 @@ function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario)
         }
         // Si la palabra ya fue jugada se le avisa al jugador.
         if ($palabraJugada) {
-            $palabraAleatoria = ""; // Reinicio la variable.
+            echo "> Palabra ya jugada! Elija otra para jugar! \n ";
+            $palabraElegida = "";
         }
     } while ($palabraAleatoria === "");
 
@@ -391,36 +394,36 @@ function mostrarResumenJugador($coleccionPartidas)
     // int $intentoClave, $i
     // float $porcentajeVictorias
 
-    $jugadoresExistentes = [];
+    // $jugadoresExistentes = [];
 
-    foreach ($coleccionPartidas as $partida) {
-        $jugador = $partida["jugador"]; // Guarda el jugador.
+    // foreach ($coleccionPartidas as $partida) {
+    //     $jugador = $partida["jugador"]; // Guarda el jugador.
 
-        $jugadorVisto = false; // Bandera para saber si el jugador ya fue registrado.
+    //     $jugadorVisto = false; // Bandera para saber si el jugador ya fue registrado.
 
-        foreach ($jugadoresExistentes as $jugadorGuardado) {
+    //     foreach ($jugadoresExistentes as $jugadorGuardado) {
 
-            if ($jugador == $jugadorGuardado) {
-                $jugadorVisto = true;
-            }
-        }
+    //         if ($jugador == $jugadorGuardado) {
+    //             $jugadorVisto = true;
+    //         }
+    //     }
 
-        // Si no fue visto, se agrega a la lista de jugadores existentes.
-        if (!$jugadorVisto) {
-            $jugadoresExistentes[] = $jugador;
-        }
-    }
+    //     // Si no fue visto, se agrega a la lista de jugadores existentes.
+    //     if (!$jugadorVisto) {
+    //         $jugadoresExistentes[] = $jugador;
+    //     }
+    // }
 
-    // Muestra los jugadores
-    echo "\n";
-    echo "*****************************************\n";
-    echo "> Jugadores disponibles:\n";
-    foreach ($jugadoresExistentes as $jugador) {
-        echo "\n";
-        echo "  > - " . $jugador . "\n";
-    }
-    echo "\n";
-    echo "*****************************************\n";
+    // // Muestra los jugadores
+    // echo "\n";
+    // echo "*****************************************\n";
+    // echo "> Jugadores disponibles:\n";
+    // foreach ($jugadoresExistentes as $jugador) {
+    //     echo "\n";
+    //     echo "  > - " . $jugador . "\n";
+    // }
+    // echo "\n";
+    // echo "*****************************************\n";
 
     $nombreJugador = verificarExistenciaJugador($coleccionPartidas);
 
@@ -442,7 +445,7 @@ function mostrarResumenJugador($coleccionPartidas)
     foreach ($coleccionPartidas as $partida) {
         if ($partida["jugador"] === $nombreJugador) {
             //Incrementa el total de partidas jugadas
-            $resumenJugador["partidas"]++;
+            $resumenJugador["partidas"] = $resumenJugador["partidas"]+1;
 
             //Suma el puntaje de la partida al puntaje total
             $resumenJugador["puntaje"] += $partida["puntaje"];
@@ -650,21 +653,21 @@ $coleccionPartidas = cargarPartidas();
 //Ingresa el nombre de usuario.
 $nombreUsuario = solicitarJugador();
 
+
 //Menu de opciones.
 do {
     $opcion = seleccionarOpcion();
     switch ($opcion) {
         case 1:
-            jugarPalabraElegida($coleccionPalabras, $nombreUsuario);
+            $coleccionPartidas = jugarPalabraElegida($coleccionPalabras, $nombreUsuario, $coleccionPartidas);
             break;
         case 2:
-            jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario);
+            $coleccionPartidas = jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario, $coleccionPartidas);
             break;
         case 3:
-            mostrarUnaPartida($coleccionPartidas);
+            $mostrarPartida = mostrarUnaPartida($coleccionPartidas);
             break;
         case 4:
-            $coleccionPartidas = cargarPartidas();
             $indiceGanadora = mostrarPrimeraPartidaGanadora($coleccionPartidas);
             if ($indiceGanadora == -1) {
                 echo "************************************************\n";
