@@ -123,7 +123,7 @@ function cargarPartidas()
  * @param string $nombreUsuario
  * @return array $coleccionPartidas (actualizado)
  */
-function jugarPalabraElegida($coleccionPalabras, $nombreUsuario, $coleccionPartidas)
+function jugarPalabraElegida($coleccionPalabras, $coleccionPartidas)
 {
     // int $indice, $opcion, $cantidadPartidas, $minimo, $maximo, $i 
     // string $palabra, $palabraElegida
@@ -132,11 +132,11 @@ function jugarPalabraElegida($coleccionPalabras, $nombreUsuario, $coleccionParti
 
     $maximo = count($coleccionPalabras);
 
-
+$nombreUsuario = solicitarJugador();
     // Muestra las palabras disponibles y pide al jugador que elija una.
     echo "> Elija una palabra del siguiente listado: \n";
     for($j=0; $j < $maximo;$j++){
-        echo $j . "\n";
+        echo $j+1 . "\n";
     }
 
     // Inicializa las variables.
@@ -201,7 +201,7 @@ function jugarPalabraElegida($coleccionPalabras, $nombreUsuario, $coleccionParti
  * @param string $nombreUsuario
  * @return array $coleccionPartidas (actualizado)
  */
-function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario, $coleccionPartidas)
+function jugarPalabraAleatoria($coleccionPalabras, $coleccionPartidas)
 {
     // string $palabraAleatoria
     // array $partida , $coleccionPartidas
@@ -213,6 +213,7 @@ function jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario, $coleccionPar
     $i=0;
     $cantidad= count($coleccionPartidas);
     $palabraJugada= false;
+$nombreUsuario = solicitarJugador();
 
     do {
         // Seleccionar una palabra aleatoria de la colección
@@ -335,33 +336,33 @@ function mostrarPrimeraPartidaGanadora($coleccionPartidas)
     $indicePrimeraGanada = -1;
     $i = 0;
 
-    // Muestra los nombres de los jugadores.    
-    echo "> Jugadores con alguna Victoria en Wordix! :\n";
-    // Inicializa un arreglo vacio para guardar los jugadores con 1 victoria.
-    $jugadoresConVictoria = [];
-    // Recorrido para encontrar los jugadores.
-    foreach ($coleccionPartidas as $partida) {
-        $jugador = $partida["jugador"]; // Guardo el jugador.
+    // // Muestra los nombres de los jugadores.    
+    // echo "> Jugadores con alguna Victoria en Wordix! :\n";
+    // // Inicializa un arreglo vacio para guardar los jugadores con 1 victoria.
+    // $jugadoresConVictoria = [];
+    // // Recorrido para encontrar los jugadores.
+    // foreach ($coleccionPartidas as $partida) {
+    //     $jugador = $partida["jugador"]; // Guardo el jugador.
 
-        if ($partida["puntaje"] > 0) { // Si la partida es ganada inicializo la variable en falso 
-            $jugadorVisto = false;
+    //     if ($partida["puntaje"] > 0) { // Si la partida es ganada inicializo la variable en falso 
+    //         $jugadorVisto = false;
 
-            foreach ($jugadoresConVictoria as $jugadorGuardado) {
+    //         foreach ($jugadoresConVictoria as $jugadorGuardado) {
 
-                if ($jugador == $jugadorGuardado) {
-                    $jugadorVisto = true;
-                }
-            }
-            if (!$jugadorVisto) {
-                $jugadoresConVictoria[] = $jugador;
-                echo "> " . $jugador . "\n";
-            }
-        }
-    }
+    //             if ($jugador == $jugadorGuardado) {
+    //                 $jugadorVisto = true;
+    //             }
+    //         }
+    //         if (!$jugadorVisto) {
+    //             $jugadoresConVictoria[] = $jugador;
+    //             echo "> " . $jugador . "\n";
+    //         }
+    //     }
+    // }
 
-    echo "\n";
-    echo "> Elija un jugador de la lista para ver su primera victoria en Wordix!\n";
-    echo "\n";
+    // echo "\n";
+    // echo "> Elija un jugador de la lista para ver su primera victoria en Wordix!\n";
+    // echo "\n";
 
     $nombreJugador = verificarExistenciaJugador($coleccionPartidas);
 
@@ -651,7 +652,7 @@ $coleccionPalabras = cargarColeccionPalabras();
 $coleccionPartidas = cargarPartidas();
 
 //Ingresa el nombre de usuario.
-$nombreUsuario = solicitarJugador();
+// $nombreUsuario = solicitarJugador();
 
 
 //Menu de opciones.
@@ -659,10 +660,10 @@ do {
     $opcion = seleccionarOpcion();
     switch ($opcion) {
         case 1:
-            $coleccionPartidas = jugarPalabraElegida($coleccionPalabras, $nombreUsuario, $coleccionPartidas);
+            $coleccionPartidas = jugarPalabraElegida($coleccionPalabras, $coleccionPartidas);
             break;
         case 2:
-            $coleccionPartidas = jugarPalabraAleatoria($coleccionPalabras, $nombreUsuario, $coleccionPartidas);
+            $coleccionPartidas = jugarPalabraAleatoria($coleccionPalabras, $coleccionPartidas);
             break;
         case 3:
             $mostrarPartida = mostrarUnaPartida($coleccionPartidas);
