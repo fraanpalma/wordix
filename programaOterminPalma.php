@@ -280,7 +280,7 @@ function mostrarUnaPartida($coleccionPartidas, $opcion)
 
         $indice = indicePrimeraPartidaGanadora($coleccionPartidas, $nombreJugador);
         if ($indice == -1) {
-            echo "> El jugador " . $nombreJugador . " no tiene victorias aun. \n";
+            echo "> El jugador " . $nombreJugador . " no ganó ninguna partida. \n";
             echo "\n";
         }
     }
